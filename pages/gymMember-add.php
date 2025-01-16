@@ -145,7 +145,6 @@ $pageName = "gymMember-add";
                 </div>
                 <div class="mt-6">
                     <button type="submit" class="btn btn-primary me-3">確定</button>
-                    <button type="reset" class="btn btn-outline-secondary">重設</button>
                 </div>
             </form>
         </div>
