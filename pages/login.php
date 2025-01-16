@@ -1,5 +1,5 @@
 <!-- 讀取資料庫 -->
-<?php 
+<div?php 
 require __DIR__ . '/includes/init.php';
 $title = "登入";
 $pageName = "login"; 
@@ -8,13 +8,19 @@ $pageName = "login";
 <!-- html開始 -->
 <?php include __DIR__ . '/includes/html-header.php'; ?>
 <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background:linear-gradient(to right,rgb(110, 191, 245) 0%,rgb(2, 99, 184) 100%);
+        }
         .login-container {
             background: rgba(255, 255, 255, 0.9);
             border-radius: 20px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             padding: 2rem;
-            margin-top: 3rem;
-            max-width: 400px;
+            margin-top: 4rem;
+            max-width: 500px;
         }
         .login-title {
             color:rgb(12, 13, 13);
@@ -43,15 +49,20 @@ $pageName = "login";
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
+        .text-con {
+            margin-top: 3rem;
+            text-align: center;
+        }
     </style>
-<?php include __DIR__ . '/includes/html-sidebar-1.php'; ?>
-<?php include __DIR__ . '/includes/html-layout-navbar.php'; ?>
-<?php include __DIR__ . '/includes/html-content wrapper-start.php'; ?>
+
 <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-end">
+        <div class="col-md-6 text-con">
+            <a href="home.php"><h2 style="color:#fff; line-height:450px" class="fs-1">GYM管系統</h2></a>
+        </div>
             <div class="col-md-6">
                 <div class="login-container">
-                    <h2 class="login-title">管理員/教練登入</h2>
+                <h2 class="login-title">管理員/教練登入</h2>
                     <form onsubmit="sendData(event)">
                         <div class="mb-3">
                             <label class="form-label">電子郵件</label>
