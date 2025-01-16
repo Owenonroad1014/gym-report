@@ -11,7 +11,7 @@ $output = [
     'lastInsertId' =>0, //第28行,要回應給用戶端(最新拿到的PK)
 ];
 $sql = "INSERT INTO `orders`
-(`order_id`, `member_id`, `total_amount`, `self_pickup_store`,`payment_method`,`status`) 
+(`order_id`, `member_id`,`total_amount`, `self_pickup_store`,`payment_method`,`status`) 
 VALUES (?,?,?,?,?,?)"; 
 # 第13~15行,不是完整的SQL語法,因為新增沒有把真正的值放進去,所以不能用 query, query會直接執行
 
@@ -25,6 +25,8 @@ $stmt -> execute([
     $_POST['payment_method'],
     $_POST['status']
 ]);
+
+
 $output['success'] = !!$stmt->rowCount(); //rowCount()影響幾列,新增了幾筆(CRUD都用此函數)
 $output['lastInsertId'] = $pdo->lastInsertId(); //只有在新增資料,primary key 是 auto increment才會有(最新拿到的PK)
 
