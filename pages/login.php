@@ -1,5 +1,5 @@
 <!-- 讀取資料庫 -->
-<div?php 
+<?php 
 require __DIR__ . '/includes/init.php';
 $title = "登入";
 $pageName = "login"; 
