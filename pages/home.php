@@ -27,7 +27,7 @@ $pageName="home";
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: #007bff;
+            background: #696cff;
             color: white;
             display: flex;
             align-items: center;

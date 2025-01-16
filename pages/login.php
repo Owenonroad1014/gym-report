@@ -12,7 +12,7 @@ $pageName = "login";
             margin: 0;
             padding: 0;
             height: 100vh;
-            background:linear-gradient(to right,rgb(110, 191, 245) 0%,rgb(2, 99, 184) 100%);
+            background:linear-gradient(to right,rgb(132, 134, 251) 0%,rgb(71, 74, 252)100%);
         }
         .login-container {
             background: rgba(255, 255, 255, 0.9);
@@ -35,7 +35,7 @@ $pageName = "login";
             border: 1px solid #e0e0e0;
         }
         .btn-login {
-            background: linear-gradient(to right,rgb(67, 86, 252) 0%,rgb(106, 67, 247) 100%);
+            background: linear-gradient(to right,rgb(105, 108, 255) 0%,rgb(84, 39, 249) 100%);
             border: none;
             border-radius: 10px;
             padding: 0.8rem;
@@ -53,12 +53,20 @@ $pageName = "login";
             margin-top: 3rem;
             text-align: center;
         }
+        .fs-1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color:#fff; 
+            line-height:450px; 
+            font-family:'public-san'
+        }
     </style>
 
 <div class="container">
         <div class="row justify-content-end">
         <div class="col-md-6 text-con">
-            <a href="home.php"><h2 style="color:#fff; line-height:450px" class="fs-1">GYM管系統</h2></a>
+            <a href="home.php"><h2
+            class="fs-1">GYM管系統</h2></a>
         </div>
             <div class="col-md-6">
                 <div class="login-container">
