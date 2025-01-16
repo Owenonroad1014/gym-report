@@ -28,7 +28,7 @@ if($keyword){
 
 $t_sql = "SELECT count(*) FROM Videos $where";
 $totalRows = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM)[0]; 
-
+$totalPages = ceil($totalRows/$perPage);
 $rows = []; # 設定預設值
 // if ($totalRows > 0) {
 //   if ($page > $totalPages) {
@@ -39,6 +39,13 @@ $rows = []; # 設定預設值
 //   }}
 
 if($totalRows>0){
+
+  if ($page > $totalPages) {
+    // ob_clean();
+    # 用戶要看的頁碼超出範圍, 跳到最後一頁
+    header('Location: ?page=' . $totalPages);
+    exit;
+  }
   
   $sql = sprintf("SELECT * FROM `Videos` %s
   LIMIT %s, %s", $where,
@@ -47,10 +54,10 @@ if($totalRows>0){
   $rows = $pdo->query($sql)->fetchAll();
 }
 
-$totalPages = ceil($totalRows/$perPage);
 
-$all_sql="SELECT * FROM Videos WHERE videos_id = $videos_id";
-$r = $pdo->query($all_sql)->fetch();
+
+// $all_sql="SELECT * FROM Videos WHERE videos_id = $videos_id";
+// $r = $pdo->query($all_sql)->fetch();
 
 ?>
 <?php include __DIR__ . '/includes/html-header.php'; ?>
