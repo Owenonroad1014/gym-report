@@ -21,7 +21,7 @@ $pageName = "order-add";
             <label class="col-sm-2 col-form-label" for="basic-default-order_id">訂單號碼</label>
             <div class="col-sm-10">
               <input type="number" class="form-control" id="basic-default-order_id" placeholder="order_id" name="order_id">
-              <div id="titleError" class="color-danger my-2"></div>
+              <div id="order_idError" class="color-danger my-2"></div>
             </div>
             
           </div>
@@ -32,6 +32,20 @@ $pageName = "order-add";
             </div>
             
           </div>
+          <!-- <div class="row mb-6">
+            <label class="col-sm-2 col-form-label" for="basic-default-id">商品編號</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control " id="basic-default-id" name="id" placeholder="product_ID">
+              <div id="idError" class="color-danger my-2"></div>
+            </div>
+            <div class="row mb-6">
+            <label class="col-sm-2 col-form-label" for="basic-default-name">商品名稱</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control " id="basic-default-name" name="name">
+              <div id="nameError" class="color-danger my-2"></div>
+            </div>
+            
+          </div> -->
           <div class="row mb-6">
             <label class="col-sm-2 col-form-label" for="basic-default-total_amount">總金額</label>
             <div class="col-sm-2">
@@ -86,7 +100,7 @@ $pageName = "order-add";
                 
             </div>
           </div>
-          <div class="mt-6">
+          <div class="mt-6 text-end">
             <button type="submit" class="btn btn-primary me-3">新增</button>
             <button type="reset" class="btn btn-outline-secondary">重設</button>
           </div>
@@ -123,34 +137,44 @@ $pageName = "order-add";
 </div>
 
 <script>
-    // const title = document.querySelector('#basic-default-title')
-    // const content = document.querySelector('#basic-default-content')
-    // const textCount = document.querySelector('#textCount')
     
-    /*content.addEventListener('input', () => {
-    textCount.innerHTML = `${content.value.length} 個字`;
-    });*/
     
     const sendData = e=>{
         e.preventDefault(); //不要讓表單以傳統方式送出
-        // content.classList.remove('btn-outline-danger')
-        // textCount.classList.remove('btn-outline-danger')
+        document.querySelector('#order_idError').innerHTML = '';
+        document.querySelector('#total_amount_error').innerHTML = '';
+        
         
         //資料欄位的檢查
-        /*let isPass = true 
+        let isPass = true; 
 
-        if(title.value.length <= 5){
-            isPass=false;
-            document.querySelector('#titleError').innerHTML ='標題不能小於5個字'
-            title.classList.add('btn-outline-danger')
-        }
-        if(content.value.length <= 30){
-            isPass=false;
-            document.querySelector('#contentError').innerHTML ='內文不能小於30個字'
-            content.classList.add('btn-outline-danger')
-        }*/
-        //if (isPass) {}
+        const order_id = document.querySelector('#basic-default-order_id');
+        const member_id = document.querySelector('#basic-default-member_id');
+        const total_amount = document.querySelector('#basic-default-total_amount');
+    if (!order_id.value || order_id.value <= 0) {
+        isPass = false;
+        document.querySelector('#order_idError').innerHTML = '必填';
+        order_id.classList.add('is-invalid');
+    } else {
+        order_id.classList.remove('is-invalid');
+    }
 
+    if (!member_id.value || member_id.value <= 0) {
+        isPass = false;
+        member_id.classList.add('is-invalid');
+    } else {
+        member_id.classList.remove('is-invalid');
+    }
+    if (!total_amount.value || total_amount.value <= 0) {
+        isPass = false;
+        document.querySelector('#total_amount_error').innerHTML = '必填';
+        total_amount.classList.add('is-invalid');
+    } else {
+        total_amount.classList.remove('is-invalid');
+    }
+        
+    
+    if (isPass) {
           const fd = new FormData(document.forms[0]); //會拿到所有表單,這個頁面只有1個表單(索引值0),然後用 fetch 來發送
           const myModal = new bootstrap.Modal('#success-modal')
           //fetch 發送, 第2個物件設定{},裡面要設定方法
@@ -169,6 +193,7 @@ $pageName = "order-add";
             }).catch(console.warn);
         
     }
+  };
 </script>
 <?php include __DIR__ . '/includes/html-script.php'; ?>
 <?php include __DIR__ . '/includes/html-footer.php'; ?>
