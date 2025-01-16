@@ -17,13 +17,13 @@ if ($page < 1) {
   exit; 
 }
 // 這段 PHP 語法的作用是用來處理關鍵字篩選條件，會根據用戶提供的關鍵字，生成對 order_id 或 total_amount 進行模糊查詢的 SQL 條件，實現篩選功能
-// $keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
-// $where =" WHERE 1 ";
-// if($keyword){
-//   $keyword_ = $pdo->quote("%{$keyword}%"); 
-//   echo $keyword_;
-//   $where .= " AND (order_id LIKE $keyword_ OR total_amount LIKE $keyword_)";
-// }
+$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+$where =" WHERE 1 ";
+if($keyword){
+  $keyword_ = $pdo->quote("%{$keyword}%"); 
+  // echo $keyword_;
+  $where .= " AND (order_id LIKE $keyword_ OR total_amount LIKE $keyword_ OR member_id LIKE $keyword_)";
+}
 
 /*SELECT count(*) FROM orders $where：從 orders 資料表中，計算符合 $where 條件的總筆數。
 $where 是前面生成的篩選條件（如關鍵字篩選）。*/
@@ -90,7 +90,7 @@ $r = $pdo->query($all_sql)->fetch();
                   $qs = array_filter($_GET); 
                   $qs['page']= $i ?>
                 <li class="page-item <?=$page == $i?'active':''?> ">
-                  <a class="page-link" href="?<?=http_build_query($qs)?>"><?=$i?></a>
+                  <a class="page-link" href="?<?=http_build_query($qs)?>"><?= $i?></a>
                 </li>
               <?php endfor;?>
 
@@ -112,7 +112,7 @@ $r = $pdo->query($all_sql)->fetch();
                   <button class="input-group-text">
                     <i class="tf-icons bx bx-search"></i>
                   </button>
-              <input type="search" class="form-control" placeholder="Search..." name="keyword" value="<?=empty($_GET['keyword'])?'':htmlentities($_GET['keyword'])?>">
+              <input type="search" class="form-control" placeholder="Search..." name="keyword" value="<?= htmlentities($keyword) ?>">
             </div>
         </form>
       </div>
@@ -122,7 +122,6 @@ $r = $pdo->query($all_sql)->fetch();
     <table class="table table-hover">
       <thead>
         <tr>
-        <!-- <th>#</th> -->
           <th>訂單號碼</th>
           <th>會員號碼</th>
           <th>總金額</th>
@@ -138,9 +137,6 @@ $r = $pdo->query($all_sql)->fetch();
       <tbody class="table-border-bottom-0">
         <?php foreach($rows as $v):?>
         <tr>
-          <!-- <td><button type="button" class="btn rounded-pill btn-icon btn-outline-secondary" data-bs-toggle="modal"  data-bs-target="#exLargeModal"  data-order-id="<?=$v['order_id']?>" id="viewBtn">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button></td> -->
           <td title="<?=$v['order_id']?>"><?=$v['order_id']?></td>
           <td style="max-width: 200px" title="<?=$v['member_id']?>"><?=$v['member_id']?></td>
           <td style="max-width: 150px" title="<?=htmlentities($v['total_amount'])?>">
@@ -164,53 +160,6 @@ $r = $pdo->query($all_sql)->fetch();
   </div>
 </div>
 
-<!-- modal找出圖示並刪除 -->
-<div class="modal fade" id="exLargeModal" tabindex="-1" style="display: none;" aria-hidden="true">
-          <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel4">文章詳情</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <div class="row mb-6">
-                  <label class="col-sm-2 col-form-label" for="basic-default-order_id">文章ID</label>
-                  <div class="col-sm-10">
-                  <input type="text" class="form-control" id="basic-default-order_id" name="order_id" value="" disabled >
-                  </div>
-                </div>
-                <div class="row mb-6">
-                  <label class="col-sm-2 col-form-label" for="basic-default-title">標題</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="basic-default-title" placeholder="title" name="title" value="" disabled>
-                    <div id="titleError" class="color-danger my-2"></div>
-                  </div>
-                </div>
-                <div class="row mb-6">
-                  <label class="col-sm-2 col-form-label" for="basic-default-author">作者ID</label>
-                  <div class="col-sm-10">
-                    <input type="number" class="form-control " id="basic-default-author" name="author_id" placeholder="ID" min=1  value="" disabled>
-                  </div>
-                </div>
-                <div class="row mb-6">
-                  <label class="col-sm-2 col-form-label" for="basic-default-content">文章內容</label>
-                  <div class="col-sm-10">
-                    <textarea id="basic-default-content" class="form-control" rows="5" name="content" disabled></textarea>
-                    <div id="contentError"></div>
-                  </div>
-                </div>
-                <div class="row mb-6">
-                  <label class="col-sm-2 col-form-label" for="basic-default-uploadStatus">發布狀態</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control " id="basic-default-uploadStatus" name="uploadStatus" value="" disabled>
-                  </div>
-                </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
 <!-- modal delete -->
 <div class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true" id="delete-modal">
     <div class="modal-dialog modal-lg" role="document" >
@@ -219,7 +168,7 @@ $r = $pdo->query($all_sql)->fetch();
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <h4 class="modal-title" id="exampleModalLabel2">確定是否刪除</h4>
+            <h4 class="modal-title" id="exampleModalLabel2">訂單是否刪除</h4>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary me-3" data-bs-dismiss="modal" id="yesgo"> 
@@ -246,7 +195,7 @@ $r = $pdo->query($all_sql)->fetch();
         const member_id = td_member_id.innerHTML
         const delModal = new bootstrap.Modal('#delete-modal')
         delModal.show()
-        document.querySelector('#exampleModalLabel2').innerHTML=`是否要刪除訂單號碼為${orderid}，會員號碼為${member_id}的訂單`
+        document.querySelector('#exampleModalLabel2').innerHTML=`是否要刪除訂單號碼為${orderid}的訂單`
         document.querySelector('#yesgo').addEventListener('click',function(){
           location.href=`order-del-api.php?order_id=${orderid}`
         })
