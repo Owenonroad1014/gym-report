@@ -183,37 +183,40 @@ document.querySelector('#self_pickup_store').value = storeValue;
 document.querySelector('#payment_method').value = paymentMethodValue;
 document.querySelector('#status').value = statusValue;
 
-/*textCount.innerHTML = `${content.value.length} 個字`;
-content.addEventListener('input', () => {
-    textCount.innerHTML = `${content.value.length} 個字`;
-});*/
 
     
     const sendData = e=>{
         e.preventDefault();
-        total_amount.classList.remove('btn-outline-danger')
-        document.querySelector('#total_amountError').innerHTML =''
-        self_pickup_store.classList.remove('btn-outline-danger')
-        document.querySelector('#self_pickup_storeError').innerHTML =''
-        member_id.classList.remove('btn-outline-danger')
-        document.querySelector('#member_idError').innerHTML=''
 
         let isPass = true 
 
-        
-
-        
-
-        if(member_id.value.length === ''){
-            isPass=false;
-            document.querySelector('#member_idError').innerHTML ='會員編號不能空白'
-            member_id.classList.add('btn-outline-danger')
+      if (!member_id.value.trim() || isNaN(member_id.value) || parseInt(member_id.value) <= 0) {
+            isPass = false;
+            document.querySelector('#member_idError').innerHTML = '會員編號必填不能空白';
+            member_id.classList.add('btn-outline-danger');
         }
-        /*if(content.value.length < 30){
-            isPass=false;
-            document.querySelector('#contentError').innerHTML ='內文不能小於30個字'
-            content.classList.add('btn-outline-danger')
-        }*/
+
+        if (!total_amount.value.trim() || isNaN(total_amount.value) || parseFloat(total_amount.value) <= 0) {
+            isPass = false;
+            document.querySelector('#total_amountError').innerHTML = '總金額必填不能空白';
+            total_amount.classList.add('btn-outline-danger');
+        }
+
+        if (!self_pickup_store.value) {
+            isPass = false;
+            document.querySelector('#self_pickup_storeError').innerHTML = '請選擇自取門市';
+            self_pickup_store.classList.add('btn-outline-danger');
+        }
+
+        if (!payment_method.value) {
+            isPass = false;
+            alert('請選擇付款方式');
+        }
+
+        if (!status.value) {
+            isPass = false;
+            alert('請選擇訂單狀態');
+        }
         
         if (isPass) {
           const fd = new FormData(document.forms[0]);
